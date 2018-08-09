@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Weather App</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    
 </head>
 <body>
 <header>
@@ -12,9 +12,9 @@
 </header>
 <div class="main">
     <div id="search">
-        <label for="city">City Name</label>
+        <label for="city">Name of City</label>
         <input type="text" id="city">
-        <button type="button">Show Weather!</button>
+        <button type="button">Go!</button>
     </div>
     <div id="load">Loading...</div>
     <div id="weather">
@@ -25,5 +25,9 @@
 
     </div>
 </div>
+<!--init is imported before app because
+init imports all the elements that app uses -->
+<script src="init.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
