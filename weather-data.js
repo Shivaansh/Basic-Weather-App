@@ -21,7 +21,9 @@ Object.defineProperty(Weather.prototype, 'temperature',
 
 	set: function(value)
 	{
-		this._temperature = (value * 1.8 + 32).toFixed(2) + " F";
 		//convert celsius to fahrenheit
+		//this._temperature = (value * 1.8 + 32).toFixed(2) + " F";
+		this._temperature = value + " C"; //show in celsius
+		
 	}
 });

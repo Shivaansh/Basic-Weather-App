@@ -6,51 +6,67 @@ searchButton.addEventListener('click', getWeather);
 
 function getWeather()
 {
-	var cityName = city.value; //city imported from init
-	//value is a property on input HTML element
 
-	if(cityName.trim().length == 0)//if name entered is blank
-	{
-		return alert("City name cannot be blank!");
-		//open alert dialog box prompting for city name
-	}
-	var http = new XMLHttpRequest();
-	//create HTTP request, but not sent
+    loadingText.style.display = 'block'; //show loadingText
+    weatherBox.style.display = 'none'; //hide Weather Box
+    var cityName = city.value; //city imported from init
+    //value is a property on input HTML element
 
-	var keyAPI = 'ebedf5392f5d474fe6e644718e45446e';
-	//API key to use with API calls
+    if(cityName.trim().length == 0)//if name entered is blank
+    {
+        return alert("City name cannot be blank!");
+        //open alert dialog box prompting for city name
+    }
+    var http = new XMLHttpRequest();
+    //create HTTP request, but not sent
 
-	var linkToSendReqTo = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=metric&appid=' + keyAPI;
-	//get data in metric units (Celsius)
-	//link to send HTTP request to (REMMEBER adding http://)
+    var keyAPI = 'ebedf5392f5d474fe6e644718e45446e';
+    //API key to use with API calls
 
-	var method = "GET";
-	//method type: GET for retrieving data
+    var linkToSendReqTo = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=metric&appid=' + keyAPI;
+    //get data in metric units (Celsius)
+    //link to send HTTP request to (REMMEBER adding http://)
 
-	http.open(method, linkToSendReqTo);
-	//open request
+    var method = "GET";
+    //method type: GET for retrieving data
 
-	http.onreadystatechange = function() //this does NOT send the request
-	{
-		if(http.readyState === XMLHttpRequest.DONE && http.status === 200) //successful return
-		{
-		//success, reflect data as Weather object
-			var data = JSON.parse(http.responseText); //parse response to object
-			//data variable is used to declare the weather object
+    http.open(method, linkToSendReqTo);
+    //open request
 
-			//look at API response sample to know how this part works
-			var weatherData = new Weather(cityName, data.weather[0].description.toUpperCase());
-			weatherData.temperature = data.main.temp;
-			console.log(weatherData);
-		}
-		else if(http.readyState === XMLHttpRequest.DONE && http.status !== 200) //failed return
-		{
-		//error, display error message
-		return alert("Sorry, something went wrong :(");
-		}
-	};
+    http.onreadystatechange = function() //this does NOT send the request
+    {
+        if(http.readyState === XMLHttpRequest.DONE && http.status === 200) //successful return
+        {
+        //success, reflect data as Weather object
+            var data = JSON.parse(http.responseText); //parse response to object
+            //data variable is used to declare the weather object
 
-	http.send(); //send request
+            //look at API response sample to know how this part works
+            var weatherData = new Weather(cityName, data.weather[0].description.toUpperCase());
+            weatherData.temperature = data.main.temp;           
+            update(weatherData);
+            //weatherBox.style.display = 'block';
+            console.log(weatherData);
+            loadingText.style.display = 'none'; //hide loadingText
+            weatherBox.style.display = 'block';
+            //console.log(weatherBox);
+        }
+        else if(http.readyState === XMLHttpRequest.DONE && http.status !== 200) //failed return
+        {
+            //error, display error message
+            return alert("Sorry, something went wrong :(");
+        }
+    };
+
+    http.send(); //send request
+}
+
+function update(weatherData)
+{
+    weatherCity.textContent = weatherData.cityName;
+    weatherDescription.textContent = weatherData.description;
+    weatherTemperature.textContent = weatherData.temperature;   
+ //show weather block
 }
 
 //weather service used: openweathermap.org API
