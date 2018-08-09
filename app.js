@@ -21,7 +21,7 @@ function getWeather()
 	//API key to use with API calls
 
 	var linkToSendReqTo = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName;
-	//link to send HTTP request to
+	//link to send HTTP request to (REMMEBER adding http://)
 
 	var method = "GET";
 	//method type: GET for retrieving data
@@ -34,6 +34,7 @@ function getWeather()
 		if(http.readyState === XMLHttpRequest.DONE && http.status === 200) //successful return
 		{
 		//success, reflect data as Weather object
+			var data = JSON.parse(http.responseText); //parse response to object
 		}
 		else if(http.readyState === XMLHttpRequest.DONE && http.status !== 200) //failed return
 		{
@@ -46,4 +47,4 @@ function getWeather()
 //weather service used: openweathermap.org API
 //API key: ebedf5392f5d474fe6e644718e45446e
 //key needs to be appended to API calls
-//link to send request to: api.openweathermap.org/data/2.5/weather?q={city name}
+//link to send request to: http://api.openweathermap.org/data/2.5/weather?q={city name}
